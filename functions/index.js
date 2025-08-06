@@ -26,25 +26,7 @@ export async function onRequest(context) {
     return new Response("Access Denied: Proxy/VPN/Hosting detected.", { status: 403 });
   }
 
-  // 4. Rate limit per IP (2x in 48 hours)
-  const key = `ip:${ip}`;
-  const ipData = await env.ip_tracker.get(key, { type: "json" }) || { count: 0, firstHit: Date.now() };
-  const now = Date.now();
-  const elapsed = now - ipData.firstHit;
-
-  if (elapsed > 24 * 3600 * 1000) {
-    ipData.count = 1;
-    ipData.firstHit = now;
-  } else {
-    ipData.count += 1;
-  }
-
-  await env.ip_tracker.put(key, JSON.stringify(ipData), { expirationTtl: 24 * 3600 });
-  if (ipData.count > 2) {
-    return Response.redirect("https://example.com/redirect-offer", 302);
-  }
-
-  // 5. HTML Response
+  // 4. HTML Response
   const html = `
     <!DOCTYPE html>
     <html>
@@ -64,20 +46,32 @@ export async function onRequest(context) {
         }
 
         // Ad frequency control
-        const adLimit = 3;
-        let views = localStorage.getItem('adViews');
-        views = views ? parseInt(views) : 0;
+        // Rate limiting with localStorage (2x in 48 hours)
+        const now = Date.now();
+        const maxViews = 2;
+        const limitHours = 24;
 
-        document.addEventListener('DOMContentLoaded', () => {
-          if (views >= adLimit) {
-            document.body.innerHTML = "<h2>Thank you for visiting. You've reached the ad view limit.</h2>";
-          } else {
-            localStorage.setItem('adViews', views + 1);
-            setTimeout(() => {
-              window.location.href = "https://abc.com";
-            }, 500);
-          }
-        });
+        let record = localStorage.getItem("accessRecord");
+        record = record ? JSON.parse(record) : { count: 0, firstTime: now };
+
+        const elapsed = now - record.firstTime;
+
+        if (elapsed > limitHours * 3600 * 1000) {
+          record.count = 1;
+          record.firstTime = now;
+        } else {
+          record.count += 1;
+        }
+
+        localStorage.setItem("accessRecord", JSON.stringify(record));
+
+        if (record.count > maxViews) {
+          window.location.href = "https://example.com/redirect-offer";
+        } else {
+          setTimeout(() => {
+            window.location.href = "https://abc.com";
+          }, 500); // delay untuk validasi
+        }
       </script>
     </head>
     

@@ -79,7 +79,7 @@ export async function onRequest(context) {
         }
       </script>
     </head>
-    
+    <body></body>
     </html>
   `;
 

@@ -36,13 +36,17 @@ export async function onRequest(context) {
       <script>
         // Block iframe
         if (window !== window.top) {
-          window.top.location = window.location.href;
+          // window.top.location = window.location.href;
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.innerHTML = "<h2>iframe</h2>";
+          });
         }
 
         // Headless detection
         const isHeadless = navigator.webdriver || !navigator.plugins.length || !navigator.languages.length;
         if (isHeadless) {
-          window.location.href = "https://google.com";
+          // window.location.href = "https://google.com";
+          document.body.innerHTML = "<h2>Access denied. Headless browser not allowed.</h2>";
         }
 
         // Ad frequency control
@@ -66,11 +70,12 @@ export async function onRequest(context) {
         localStorage.setItem("accessRecord", JSON.stringify(record));
 
         if (record.count > maxViews) {
-          window.location.href = "https://google.com/";
+          // window.location.href = "https://google.com/";
+          document.body.innerHTML = "<h2>Access denied. Maximum.</h2>";
         } else {
           setTimeout(() => {
             window.location.href = "https://abc.com";
-          }, 500); // delay untuk validasi
+          }, 200); // delay untuk validasi
         }
       </script>
     </head>

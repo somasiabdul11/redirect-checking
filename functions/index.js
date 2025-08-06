@@ -5,7 +5,8 @@ export async function onRequest(context) {
 
   // 1. Allow only Android Chrome Mobile
   const isAndroid = /Android/i.test(ua);
-  const isChromeMobile = /Chrome\\/\\d+ Mobile/i.test(ua);
+  const isChromeMobile = /Chrome\/\d+\.\d+ Mobile/i.test(ua);
+  
   if (!isAndroid || !isChromeMobile) {
     return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
   }

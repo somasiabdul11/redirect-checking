@@ -1,16 +1,16 @@
 export async function onRequest(context) {
   const request = context.request;
-  // const ua = request.headers.get("user-agent") || "";
+  const ua = request.headers.get("user-agent") || "";
   const ip = request.headers.get("cf-connecting-ip");
   const env = context.env;
 
   // 1. Allow only Android Chrome Mobile
-  // const isAndroid = /Android/i.test(ua);
-  // const isChromeMobile = /Chrome\/\d+\.\d+ Mobile/i.test(ua);
+  const isAndroid = /Android/i.test(ua);
+  const isChromeMobile = /Chrome\/\d+\.\d+ Mobile/i.test(ua);
   
-  // if (!isAndroid || !isChromeMobile) {
-  //   return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
-  // }
+  if (!isAndroid || !isChromeMobile) {
+    return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
+  }
 
   // 2. Block Cloudflare-detected bots
   const isBot = request.headers.get("cf-is-bot") === "true";
@@ -80,12 +80,7 @@ export async function onRequest(context) {
         });
       </script>
     </head>
-    <body>
-      <h2>Validating your session...</h2>
-      <div id="ad-container" style="display:none;">
-        <p>Ad goes here</p>
-      </div>
-    </body>
+    
     </html>
   `;
 

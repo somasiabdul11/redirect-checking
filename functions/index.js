@@ -1,6 +1,6 @@
 export async function onRequest(context) {
   const request = context.request;
-  const ua = request.headers.get("user-agent") || "";
+  // const ua = request.headers.get("user-agent") || "";
   const ip = request.headers.get("cf-connecting-ip");
   const env = context.env;
 

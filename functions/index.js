@@ -75,7 +75,7 @@ export async function onRequest(context) {
             localStorage.setItem('adViews', views + 1);
             setTimeout(() => {
               window.location.href = "https://abc.com";
-            }, 5000);
+            }, 500);
           }
         });
       </script>

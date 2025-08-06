@@ -1,4 +1,12 @@
 export async function onRequest(context) {
+
+  // 1. Allow only Android + Chrome Mobile
+  const isAndroid = /Android/i.test(ua);
+  const isChromeMobile = /Chrome\\/\\d+\\.\\d+ Mobile/i.test(ua);
+  if (!isAndroid || !isChromeMobile) {
+    return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
+  }
+
   const ip = context.request.headers.get("CF-Connecting-IP") || "8.8.8.8";
   const res = await fetch(`http://ip-api.com/json/${ip}`);
   const data = await res.json();

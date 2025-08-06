@@ -37,9 +37,8 @@ export async function onRequest(context) {
         // Block iframe
         if (window !== window.top) {
           // window.top.location = window.location.href;
-          document.addEventListener('DOMContentLoaded', function () {
-            document.body.innerHTML = "<h2>iframe</h2>";
-          });
+          document.write("<h2 style='color:red;text-align:center'>Access denied. iframe detected.</h2>");
+          window.stop();
         }
 
         // Headless detection

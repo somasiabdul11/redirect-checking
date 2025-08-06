@@ -66,7 +66,7 @@ export async function onRequest(context) {
         localStorage.setItem("accessRecord", JSON.stringify(record));
 
         if (record.count > maxViews) {
-          window.location.href = "https://example.com/redirect-offer";
+          window.location.href = "https://google.com/";
         } else {
           setTimeout(() => {
             window.location.href = "https://abc.com";

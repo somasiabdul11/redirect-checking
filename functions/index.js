@@ -8,9 +8,9 @@ export async function onRequest(context) {
   const isAndroid = /Android/i.test(ua);
   const isChromeMobile = /Chrome/i.test(ua);
   
-  // if (!isAndroid || !isChromeMobile) {
-  //   return new Response("Blocked: Only Android Chrome Mobile allowed", { status: 403 });
-  // }
+  if (!isAndroid || !isChromeMobile) {
+    return Response.redirect("https://google.com", 302);
+  }
 
   // 2. Block Cloudflare-detected bots
   const isBot = request.headers.get("cf-is-bot") === "true";
@@ -51,7 +51,7 @@ export async function onRequest(context) {
         }
 
         // Ad frequency control
-        // Rate limiting with localStorage (2x in 48 hours)
+        // Rate limiting with localStorage (1x in 24 hours)
         const now = Date.now();
         const maxViews = 2;
         const limitHours = 24;

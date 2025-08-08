@@ -85,7 +85,7 @@ export async function onRequest(context) {
         localStorage.setItem("accessRecord", JSON.stringify(record));
 
         if (record.count > maxViews) {
-          window.location.href = "https://redrect22.blogspot.com/";
+          window.location.href = selectedURL;
         } else {
           setTimeout(() => {
             window.location.href = offerURL;

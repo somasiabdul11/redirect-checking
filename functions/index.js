@@ -4,11 +4,15 @@ export async function onRequest(context) {
   const ip = request.headers.get("cf-connecting-ip");
   const env = context.env;
 
-  // 1. Allow only Android Chrome Mobile
+  // 1. Deteksi Android Chrome Mobile
   const isAndroid = /Android/i.test(ua);
   const isChromeMobile = /Chrome/i.test(ua);
+
+  // 2. Deteksi iPhone Mobile Safari
+  const isIphone = /iPhone/i.test(ua);
+  const isSafariMobile = /Safari/i.test(ua) && !/Chrome/i.test(ua);
   
-  if (!isAndroid || !isChromeMobile) {
+  if (!( (isAndroid && isChromeMobile) || (isIphone && isSafariMobile) )) {
     return Response.redirect("https://google.com", 302);
   }
 

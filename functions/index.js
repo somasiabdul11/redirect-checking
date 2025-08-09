@@ -27,7 +27,7 @@ export async function onRequest(context) {
   if (isAndroid) {
     offerURL = "https://idjjk.bemobtrcks.com/click";
   } else if (isIphone) {
-    offerURL = "https://fgs4f.bemobtrcks.com/click";
+    offerURL = "https://idjjk.bemobtrcks.com/click";
   }
 
   // 3. Fetch from ip-api.com
